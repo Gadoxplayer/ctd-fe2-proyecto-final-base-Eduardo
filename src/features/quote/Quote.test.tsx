@@ -82,7 +82,7 @@ describe("===================Verifying buttons functionality ===================
         fireEvent.click(button);
 
         await waitFor(() => 
-        expect(screen.queryByText(mockquotes.randonQuote.character)).toHaveTextContent("Moe Szyslak")
+        expect(screen.queryByText(mockquotes.withcharacterQuote.character)).toHaveTextContent("Moe Szyslak")
         )
     })
 
