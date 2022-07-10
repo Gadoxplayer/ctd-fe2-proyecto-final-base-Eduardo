@@ -50,8 +50,8 @@ describe('=================== Rendering Quote component ===================', ()
     it("should change the name of the search button `Obtener cita aleatoria` if any text is typed in the input area", async () => {
         const inputSearch = screen.getByPlaceholderText("Ingresa el nombre del autor");      
         fireEvent.change(inputSearch, {target: {value: 'holis'}})
-        waitFor(() => {
-            expect(screen.getByRole('button', {name: "Obtener cita"})).toBeInTheDocument;
+        await waitFor(() => {
+            expect(screen.queryByText("Obtener Cita")).toBeInTheDocument()
         })
     })
 });
@@ -87,17 +87,15 @@ describe("===================Verifying buttons functionality ===================
     })
 
     // it("should generate a text soliciting a valid name for search when typing not valid values for search", async () => {
-    //     const button = screen.getByText("Obtener cita", {selector: "button"});
+  
     //     const inputSearch = screen.getByPlaceholderText("Ingresa el nombre del autor"); 
-
-    //     await userEvent.clear(inputSearch);
-
     //     fireEvent.change(inputSearch, {target: {value:'holis'}});
 
-    //     await userEvent.click(button)
+    //     const button = screen.findByText("Obtener Cita", {selector: "button"});
+    //     fireEvent.click(await button)
 
     //     await waitFor(() => 
-    //         expect(screen.getByPlaceholderText("Por favor ingrese un nombre válido"))
+    //         expect(screen.queryByText("Por favor ingrese un nombre válido"))
     //     )
     // })
 
