@@ -35,28 +35,46 @@ const Noticias = () => {
   const [noticias, setNoticias] = useState<INoticiasNormalizadas[]>([]);
   const [modal, setModal] = useState<INoticiasNormalizadas | null>(null);
 
+  /**
+   * this function receives a string to capitalize the first letter of each word
+   * @author Eduardo
+   * @param word a string to be capitalized from the interface iNoticias
+   * @returns a capitalized joined string
+   */
+const changeCase = (word: string) =>{
+  return word.split(" ")
+  .map((str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  })
+  .join(" ");
+  }
+
+  /**
+   * this function receives a type Date data to compute the elapsed time in minutes
+   * @author Eduardo
+   * @param date from the interface iNoticias
+   * @returns the number of elapsed minutes 
+   */
+const getCurrentTime = (date: { fecha: { getTime: () => number; }; }) => {
+  const now = new Date();
+  const elapsedMinutes = Math.floor(
+    (now.getTime() - date.fecha.getTime()) / 60000
+  );
+  return elapsedMinutes;
+}
+
   useEffect(() => {
     const obtenerInformacion = async () => {
       const respuesta = await obtenerNoticias();
 
       const data = respuesta.map((n) => {
-        const titulo = n.titulo
-          .split(" ")
-          .map((str) => {
-            return str.charAt(0).toUpperCase() + str.slice(1);
-          })
-          .join(" ");
-
-        const ahora = new Date();
-        const minutosTranscurridos = Math.floor(
-          (ahora.getTime() - n.fecha.getTime()) / 60000
-        );
+        const titulo = changeCase(n.titulo)
 
         return {
           id: n.id,
           titulo,
           descripcion: n.descripcion,
-          fecha: `Hace ${minutosTranscurridos} minutos`,
+          fecha: `Hace ${getCurrentTime(n)} minutos`,
           esPremium: n.esPremium,
           imagen: n.imagen,
           descripcionCorta: n.descripcion.substring(0, 100),
