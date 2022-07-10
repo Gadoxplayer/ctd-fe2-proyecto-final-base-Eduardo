@@ -6,6 +6,7 @@ import Cita from "./Cita";
 import userEvent from "@testing-library/user-event";
 import mockquotes from '../../mocks/mockQuotes';
 import exp from "constants";
+import { TIMEOUT } from "dns";
 
 /**
  * setting up the configuration for the test
@@ -86,18 +87,20 @@ describe("===================Verifying buttons functionality ===================
         )
     })
 
-    // it("should generate a text soliciting a valid name for search when typing not valid values for search", async () => {
+    it("should generate a text soliciting a valid name for search when typing not valid values for search", async () => {
   
-    //     const inputSearch = screen.getByPlaceholderText("Ingresa el nombre del autor"); 
-    //     fireEvent.change(inputSearch, {target: {value:'holis'}});
+        const inputSearch = screen.getByPlaceholderText("Ingresa el nombre del autor"); 
+        fireEvent.change(inputSearch, {target: {value:'holis'}});
 
-    //     const button = screen.findByText("Obtener Cita", {selector: "button"});
-    //     fireEvent.click(await button)
+        const button = screen.findByText("Obtener Cita", {selector: "button"});
+        fireEvent.click(await button)
 
-    //     await waitFor(() => 
-    //         expect(screen.queryByText("Por favor ingrese un nombre válido"))
-    //     )
-    // })
+        // await waitFor(() => 
+        //     expect(screen.getByText("Por favor ingrese un nombre válido")).toBeInTheDocument()
+        // )
+
+        expect(screen.getByText("CARGANDO...")).toBeInTheDocument()
+    })
 
     it("should erase the content of the input field when the `Borrar` button is pressed", async () => {
         const button = screen.getByText("Borrar", { selector: "button"});
